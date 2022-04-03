@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard - Male/Female Ratio of COVID-19 Cases Across Countries</title>
+    <link rel="stylesheet" href="design.css">
+    <!--loading D3.JS-->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+
+<div id="title"><p>Dashboard - Male/Female Ratio of COVID-19 Cases Across Countries</p></div>
+
+<div id="graphSegment">
+    <div id="regionName"></div>
+    <div><div id="graphView"> </div></div>
+</div>
+
+<div id="geoMapSegment">
+    <svg id="geoMapView" width="1050" height="610"></svg>
+    <div id="legend">
+        <svg class = "scale" width="157" height="210"></svg>
+    </div>
+</div>
+
+<div id ="sliderSegment">
+    <span id="yearNo">2020</span>
+    <div >
+        <input id="slider" type="range" min="1" max="12" step="1" value="3">
+        <div class="rangeValues">
+            <span><b>JAN</b></span><span><b>FEB</b></span><span><b>Mar</b></span><span><b>APR</b></span>
+            <span><b>MAY</b></span><span><b>JUN</b></span><span><b>JUL</b></span><span><b>AUG</b></span>
+            <span><b>SEP</b></span><span><b>OCT</b></span><span><b>NOV</b></span><span><b>DEC</b></span>
+        </div>
+    </div>
+</div>
+
+<script src="helper.js"></script>
+<script>
+    getGraphData();
+    getWorldMap();
+</script>
+</body>
+
+</html>
