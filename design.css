@@ -93,7 +93,7 @@ div#graphView{
 }
 
 #countryName{
-    font:40px sans-serif;
+    font:32px sans-serif;
     color: #ffffff;
     width: 400px;
     text-align: center;
@@ -208,4 +208,48 @@ div.tooltip {
     stroke: rgb(126, 126, 126);
     stroke-opacity: 0.1;
     shape-rendering: optimizeSpeed ;
+}
+
+div#barSegment{
+    width: 30%;
+    float: left;
+    height: 100px;
+    background-color: #ffffff;
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;;
+    background-color: #d1f4f6;
+}
+
+#barSegment h2{
+    margin: 7px;
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;;
+}
+
+#barSegment g{
+    pointer-events: all;
+
+}
+
+#barSegment *{
+    pointer-events: all;
+
+}
+
+#barGraph{
+    text-align: center;
+}
+
+div#barGraph{
+    background-color: 	#d1f4f6;
+}
+
+#barGraphName{
+    font:26px sans-serif;
+    color: #ffffff;
+    width: 400px;
+    text-align: center;
+    font-weight: bold;
+    display: inline;
+    background-color: #000000;
 }

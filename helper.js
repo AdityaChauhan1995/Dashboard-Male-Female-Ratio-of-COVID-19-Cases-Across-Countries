@@ -3,7 +3,7 @@ var temp_data;
 var path = d3.geoPath();
 var data = d3.map();
 
-var colorScale = d3.scaleThreshold().domain([0,10, 20, 40, 60, 80, 90,100]).range(d3.schemeReds[8]);
+var legendScale = d3.scaleThreshold().domain([0,10, 20, 40, 60, 80, 90,100]).range(d3.schemeReds[8]);
 var svg = d3.select(".scale"), width = +svg.attr("width");
 var legend = svg.selectAll(".legend").data([0,10, 20, 40, 60, 80, 90,100]).enter().append("g").attr("class", "legend")
              .attr("transform", function(d, i) { return "translate(0," + i * 25 + ")"; });
@@ -25,7 +25,7 @@ legend.append("text").attr("y", 10).attr("x", width-54).attr("dy", ".345em").sty
         else{return "<="+ number;}
     });
 
-legend.append("rect").attr("x", width - 50).attr("width", 18).attr("height", 18).style("fill", function(d){return colorScale(d)});
+legend.append("rect").attr("x", width - 50).attr("width", 18).attr("height", 18).style("fill", function(d){return legendScale(d)});
 
 var infoViewSegment = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 var svg = d3.select("#geoMapView"), width = +svg.attr("width"), height = +svg.attr("height");
@@ -66,7 +66,7 @@ function getGraphData() {
 function getWorldMap() {
     d3.select("#graphView").selectAll("*").remove();
     var spacing = {top: 10, right: 30, bottom: 30, left: 60},
-        width = 420 - spacing.left - spacing.right,height = 510 - spacing.top - spacing.bottom;
+        width = 450 - spacing.left - spacing.right,height = 285 - spacing.top - spacing.bottom;
     var y = d3.scaleLinear().range([height, 0]);
     var svg = d3.select("#graphView")
         .append("svg").attr("width", width + spacing.left + spacing.right).attr("height", height + spacing.top + spacing.bottom)
@@ -94,8 +94,8 @@ function getWorldMap() {
             var line = svg.append('g').attr("clip-path", "url(#clip)")
             var brush = d3.brushX().extent([[0, 0], [width, height]]).on("end", updateGraph)
 
-            xAxis = svg.append("g").attr("transform", "translate(0," + height + ")").attr('stroke-width', 1.25).attr("class", "xAxis")
-                    .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
+            xAxis = svg.append("g").attr("transform", "translate(0," + height + ")").attr('stroke-width', 2).attr("class", "xAxis")
+                    .transition().duration(850).call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
 
             svg.append("text").attr("transform","translate(" + (width/2) + " ," +(height + spacing.top + 20) + ")").style("text-anchor", "middle")
                 .style("fill","#050543").style("font","13px Arial").style("font-weight","bold").text("Year 2020");
@@ -110,7 +110,7 @@ function getWorldMap() {
             svg.append("defs").append("svg:clipPath").attr("id", "clip").append("svg:rect") .attr("width", width)
                 .attr("height", height).attr("x", 0).attr("y", 0);
 
-            line.append("path").datum(data).attr("class", "line").attr("fill", "none").attr("stroke", "#cf5c0f").attr("stroke-width", 1.5)
+            line.append("path").datum(data).attr("class", "line").attr("fill", "none").attr("stroke", "#cf5c0f").attr("stroke-width", 2)
                 .attr("d", d3.line().x(function (d) {return x(d.date)}).y(function (d) {return y(d.value)}))
 
             line.append("g").attr("class", "brush").call(brush);
@@ -217,7 +217,7 @@ function ready(error, topo) {
                 }
             }
             temp_data.forEach(myFunction)
-            return colorScale(val);
+            return legendScale(val);
         })
         .style("stroke", "transparent").attr("class", function(d){return "Country"}).style("opacity", .8)
         .on("mouseover", mouseOver ).on("mouseleave", mouseLeave ).on("click",click);
@@ -257,6 +257,53 @@ function ready(error, topo) {
                 }
             }
             temp_data.forEach(myFunction)
-            return colorScale(value);
+            return legendScale(value);
         })});
 }
+
+function barGraphLoad(value) {
+    var spacing = {top: 30, right: 30, bottom: 20, left: 60},
+          width = 400 - spacing.left - spacing.right,height = 219 - spacing.top - spacing.bottom;
+  
+    var svg = d3.select("#barGraph")
+                .append("svg").attr("width", width + spacing.left + spacing.right).attr("height", height + spacing.top + spacing.bottom)
+                .append("g").attr("transform","translate(" + spacing.left + "," + spacing.top + ")").style('pointer-events','all');
+  
+    var x = d3.scaleBand().range([0, width]).padding(0.2);
+    var xAxis = svg.append("g").attr("transform", "translate(0," + height + ")").attr("class", "myXaxis").attr('stroke-width', 2)
+    var y = d3.scaleLinear().range([height, 0]);
+    var yAxis = svg.append("g").attr("class", "myYaxis").attr('stroke-width', 2)
+    svg.append("text").attr("transform", "rotate(-90)").attr("y", 0 - spacing.left).attr("x",0 - (height / 2))
+       .attr("dy", "2em").attr("class","yLabel").style("text-anchor", "middle").style("fill","#050543")
+       .style("font","14px Arial").style("font-weight","bolder").text("Male to Female %");
+  
+    var infoViewSegment = d3.select("body").append("div").attr("class", "toolTip");
+    update('ratio')
+  
+    function update(selectedVar) {
+        d3.csv("barGraph.csv", function (data) {
+            x.domain(data.map(function (d) { return d.virus;}))
+            xAxis.transition().duration(850).call(d3.axisBottom(x))
+  
+            y.domain([0, d3.max(data, function (d) { return +d[selectedVar]})]);
+            yAxis.transition().duration(850).call(d3.axisLeft(y));
+  
+            var bars = svg.selectAll("#barGraph rect").data(data)
+            bars.enter().append("rect").merge(bars).on("mouseover",
+                function (d){
+                      d3.select(this).attr("fill","#84BADA");
+                      infoViewSegment
+                          .style("left", d3.event.pageX - 50 + "px")
+                          .style("top", d3.event.pageY - 70 + "px")
+                          .style("display", "inline-block")
+                          .html("<b style='font-size: 16px;font-family:sans-serif'>"+(d.virus) + "</br>"+
+                              "</b> <span id='casesNum' style='color: #4800ff;font-weight:bold;font-family:sans-seriffont-size: 14px' >"+(d[selectedVar])+"%");
+                  })
+                .on("mouseout", function(d){ infoViewSegment.style("display", "none");
+            
+            d3.select(this).attr("fill","#fb6767")}).transition().duration(750).attr("x", function (d) {return x(d.virus);})
+              .attr("y", function (d) {return y(d[selectedVar]);}).attr("width", x.bandwidth())
+              .attr("height", function (d) {return height - y(d[selectedVar]);}).attr("fill", "#fb6767")
+          })
+      }
+  }
