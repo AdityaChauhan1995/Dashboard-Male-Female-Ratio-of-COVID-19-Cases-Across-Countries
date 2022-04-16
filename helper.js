@@ -3,24 +3,32 @@ var temp_data;
 var path = d3.geoPath();
 var data = d3.map();
 
-var legendScale = d3.scaleThreshold().domain([0,10, 20, 40, 60, 80, 90,100]).range(d3.schemeReds[8]);
+var legendScale = d3.scaleThreshold().domain([0, 0.1, 0.25, 0.5, 1, 2, 3, 5]).range(d3.schemeReds[8]);
 var svg = d3.select(".scale"), width = +svg.attr("width");
-var legend = svg.selectAll(".legend").data([0,10, 20, 40, 60, 80, 90,100]).enter().append("g").attr("class", "legend")
+var legend = svg.selectAll(".legend").data([0, 0.1, 0.25, 0.5, 1, 2, 3, 5]).enter().append("g").attr("class", "legend")
              .attr("transform", function(d, i) { return "translate(0," + i * 25 + ")"; });
 
 legend.append("text").attr("y", 10).attr("x", width-54).attr("dy", ".345em").style("text-anchor", "end")
       .text(function(data) {
         var number;
-        switch(data){
-            case 0: number = "0"; break;
-            case 10: number = "10"; break;
-            case 20: number = "20"; break;
-            case 40: number = "40"; break;
-            case 60: number = "60"; break;
-            case 80: number = "80"; break;
-            case 90: number = "90"; break;
-            case 100: number = "100"; break;
+        if(data == 0){
+            number = "0"
+        }else if(data == 0.1){
+            number = "0.1"
+        }else if(data == 0.25){
+            number = "0.25"
+        }else if(data == 0.5){
+            number = "0.5"
+        }else if(data == 1){
+            number = "1"
+        }else if(data == 2){
+            number = "2"
+        }else if(data == 3){
+            number = "3"
+        }else if(data == 5){
+            number = "5"
         }
+
         if(number == "0"){return "= "+ number;}
         else{return "<="+ number;}
     });
@@ -35,18 +43,18 @@ function render(data){
     temp_data = d3.nest().key(function (d){ return d.code;}).entries(data);
 }
 function type(d){
-    d.jan = +d.jan.split('|')[0];
-    d.feb = +d.feb.split('|')[0];
-    d.mar = +d.mar.split('|')[0];
-    d.apr = +d.apr.split('|')[0];
-    d.may = +d.may.split('|')[0];
-    d.jun = +d.jun.split('|')[0];
-    d.jul = +d.jul.split('|')[0];
-    d.aug = +d.aug.split('|')[0];
-    d.sep = +d.sep.split('|')[0];
-    d.oct = +d.oct.split('|')[0];
-    d.nov = +d.nov.split('|')[0];
-    d.dec = +d.dec.split('|')[0];
+    d.jan = +d.jan;
+    d.feb = +d.feb;
+    d.mar = +d.mar;
+    d.apr = +d.apr;
+    d.may = +d.may;
+    d.jun = +d.jun;
+    d.jul = +d.jul;
+    d.aug = +d.aug;
+    d.sep = +d.sep;
+    d.oct = +d.oct;
+    d.nov = +d.nov;
+    d.dec = +d.dec;
     return d;
 }
 d3.csv("processedData.csv", type, render);
@@ -85,7 +93,7 @@ function getWorldMap() {
         function (d) {
             if(d.countryCode==tempCountryCode){
                 return {
-                    date: d3.timeParse("%Y-%m-%d")(d.date), value: d.males, code: d.countryCode
+                    date: d3.timeParse("%Y-%m-%d")(d.date), value: d.maleTofemaleRatio, code: d.countryCode
                 }}
         },
         function (data) {
@@ -95,7 +103,7 @@ function getWorldMap() {
             var brush = d3.brushX().extent([[0, 0], [width, height]]).on("end", updateGraph)
 
             xAxis = svg.append("g").attr("transform", "translate(0," + height + ")").attr('stroke-width', 2).attr("class", "xAxis")
-                    .transition().duration(850).call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
+                    .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
 
             svg.append("text").attr("transform","translate(" + (width/2) + " ," +(height + spacing.top + 20) + ")").style("text-anchor", "middle")
                 .style("fill","#050543").style("font","13px Arial").style("font-weight","bold").text("Year 2020");
@@ -136,7 +144,8 @@ function getWorldMap() {
                 xAxis.transition().call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")))
                 line.select('.line').transition().attr("d", d3.line().x(function (d) {return x(d.date)}).y(function (d) {return y(d.value)}))
             });
-        })
+        }
+        )
 }
 
 function ready(error, topo) {
