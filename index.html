@@ -35,6 +35,7 @@
 
 <div id ="sliderSegment">
     <span id="yearNo">Year-2020</span>
+    <button id="readMore" onclick="displayReadMore()">Read more&#9432;</button>
     <div >
         <input id="slider" type="range" min="1" max="12" step="1" value="3">
         <div class="rangeValues">
@@ -43,6 +44,62 @@
             <span><b>SEP</b></span><span><b>OCT</b></span><span><b>NOV</b></span><span><b>DEC</b></span>
         </div>
     </div>
+</div>
+
+<div class="informationTab">
+    <span class="crossButton" onclick="this.parentElement.style.display='none';">&times;</span>
+    <p>Visualisation tries to answer the question i.e. <u>“Analyse the ratio of males to females infected 
+        with Covid across countries. 
+        Calculate how this male to female percentage gets affected via virus mutations”</u>. 
+        Dataset used here were already provided on 
+        the KEATS page and are mentioned below :-<br>
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; 
+        <b>Dataset 1</b> - nextstrain_groups_ecdc_ncov_united-kingdom_diversity<br>
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; 
+        <b>Dataset 2</b> - nextstrain_ncov_open_global_diversity<br>
+        Data is transformed to support code. By allocating age values to null values, 
+        the numpy python module can fill in gaps between 
+        maximum and minimum ages. Assigning country values to the first dataset requires 
+        checking the weightage of data samples for 
+        each country per continent via second dataset. “barGraph.csv”, “graph.csv”, 
+        “countryMap.csv” and “processedData.csv” are all 
+        derived for the code base.
+        </p>
+    <h3>&emsp; &emsp; &emsp; &emsp;&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; 
+        &emsp; &emsp; &emsp; &ensp; <u>User Interaction</u></h3>
+    <p>Implementation has 4 dynamic components in total which are linked together 
+        to form an interactive visual layout.</p>
+    <p><b>Choropleth Map</b>
+        <ul>
+            Showing all countries spatially. When the user hovers over a country, 
+            a tooltip appears with the country name and the 
+            male to female ratio. The country's borders will be highlighted in white, 
+            indicating the user has previously viewed it.
+        </ul>
+    <b>Time Slider</b>
+        <ul>Visualize time as months of the year. The user can drag the slider pin to 
+            any month to see a choropleth map with that month's data.
+        </ul>
+    <b>Line Graph</b>
+        <ul>
+            Graphical analysis of M/F ratio over the year. A line graph depicting 
+            the M/F ratio over the course of the year 
+            can be accessed by clicking on any country on the choropleth map. 
+            To make values easier to read and compare, 
+            when a user hovers over the line graph, horizontal grid becomes more prominent. 
+            The user can also select a portion of the graph to 
+            zoom in and can also zoom out by double clicking on the graph.
+        </ul>
+    <b>Bar Chart</b>
+    <ul>
+        Compares M/F % for every mutation of virus. Users can hover over any rectangular bar 
+        and a tooltip will automatically occur showing 
+        the clades name and male to female percentage for that particular virus mutation.
+    </ul>
+    &emsp; &emsp; &emsp; &emsp; &emsp;<i><b>*</b> Detailed description in the report</i> 
+    &emsp; &emsp; &emsp; &emsp;
+    &emsp; &emsp; &emsp;<i><b>*</b> Best Viewed in Google Chrome</i>
+    </p>
 </div>
 
 <script src="helper.js"></script>

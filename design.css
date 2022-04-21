@@ -11,9 +11,9 @@ div#legend{
     height: 100px;
     z-index: 10;
     position: absolute;
-    left: 50px;
+    left: -10px;
     margin-left: 495px;
-    bottom: 190px;
+    bottom: 235px;
 }
 
 #legend text{
@@ -253,3 +253,58 @@ div#barGraph{
     display: inline;
     background-color: #000000;
 }
+
+button#readMore{
+    padding: 1px;
+    margin-left: 12px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 19px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: #f8bcbc; 
+}
+
+#readMore:hover{
+    color: #3a92cd;
+    cursor: pointer;
+}
+
+.informationTab {
+    padding: 15px;
+    background-color: #f37e7e;
+    color: black;
+    display: none;
+    position: absolute;
+    left: 42%;
+    top: 9.8%;
+    width: 56%;
+    font-family: sans-serif;
+}
+
+.crossButton {
+    margin-left: 15px;
+    margin-top:-8px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.crossButton:hover {
+    color: #e0f3f6;
+}
+
+.informationTab p{
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.informationTab h3,ul{
+    margin-top:7px;
+    margin-bottom: 7px;
+}
+

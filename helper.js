@@ -39,6 +39,10 @@ var infoViewSegment = d3.select("body").append("div").attr("class", "tooltip").s
 var svg = d3.select("#geoMapView"), width = +svg.attr("width"), height = +svg.attr("height");
 var projection = d3.geoMercator().scale(145).center([0,65]).translate([width / 2, height / 3.5]);
 
+function displayReadMore(){
+    document.getElementsByClassName('informationTab')[0].style.display='block';
+}
+
 function render(data){
     temp_data = d3.nest().key(function (d){ return d.code;}).entries(data);
 }
